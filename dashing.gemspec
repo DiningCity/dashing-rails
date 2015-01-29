@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'rails',                      '~> 4.2'
-  spec.add_dependency 'jquery-rails',               '~> 4.1'
+  spec.add_dependency 'jquery-rails',               '~> 4.0'
   spec.add_dependency 'coffee-rails',               '~> 4.1'
   spec.add_dependency 'batman-rails',               '~> 0.16.1'
   spec.add_dependency 'rufus-scheduler',            '~> 3.0'
