@@ -16,6 +16,8 @@ module Dashing
       end
     rescue IOError
       logger.info "[Dashing][#{Time.now.utc.to_s}] Stream closed"
+    rescue ActionController::Live::ClientDisconnected
+      logger.info "[Dashing][#{Time.now.utc.to_s}] Stream closed"
     ensure
       @redis.quit
       response.stream.close
