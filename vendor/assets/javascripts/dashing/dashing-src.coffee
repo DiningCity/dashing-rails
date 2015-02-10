@@ -55,9 +55,7 @@ class Dashing.Widget extends Batman.View
       "Last updated at #{hours}:#{minutes}"
 
   @::on 'ready', ->
-    if !@ready
-      Dashing.Widget.fire 'ready'
-    @ready = true
+    Dashing.Widget.fire 'ready'
 
   receiveData: (data) =>
     @mixin(data)
