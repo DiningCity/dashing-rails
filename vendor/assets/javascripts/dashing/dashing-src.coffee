@@ -22,32 +22,62 @@ Batman.Filters.shortenedNumber = (num) ->
 		num
 
 class window.Dashing extends Batman.App
-# 	@root ->
+#		@root ->
 # Dashing.params = Batman.URI.paramsFromQuery(window.location.search.slice(1));
 
 class Dashing.Widget extends Batman.View
 	constructor: ->
 		# Set the view path
 		@constructor::source = Batman.Filters.underscore(@constructor.name)
-
 		super
 
 		@observe 'node', (newValue, oldValue) ->
-						
+			
 			if !oldValue && !@_registeredAtDashing
 				@_registeredAtDashing = true
+				@_nodeData = $(@node).data() if $(@node).data().id
+								
+				@_renderNode() 
+				
+	
+	attachTo: (@el_id) =>
+		@_nodeData = $(@el_id).data()
+		
+		if @node
+			@_renderNode()
+	
+	_renderNode: () =>
+		
+		if @_nodeData
+		
+			console.log @node
+			console.log @_nodeData
+	
+			$(@el_id).replaceWith($(@node)) if @el_id
+			$(@node).data(@_nodeData)
+			$(@node).attr('id', @el_id.slice(1)) if @el_id
+			#@insertIntoDOM(document.getElementById(@el_id)) if @el_id
+			
+			
+			@mixin(@_nodeData)
+		
+			Dashing.widgets[@id] ||= []
+			Dashing.widgets[@id].push(@)
 
-				@mixin($(@node).data())
-				Dashing.widgets[@id] ||= []
-				Dashing.widgets[@id].push(@)
+			# in case the events from the server came
+			# before the widget was rendered
+			@mixin(Dashing.lastEvents[@id]) 
 
-				# in case the events from the server came
-				# before the widget was rendered
-				@mixin(Dashing.lastEvents[@id]) 
-
-				type = Batman.Filters.dashize(@constructor.name)
-				$(@node).addClass("widget widget-#{type} #{@id}")
-
+			type = Batman.Filters.dashize(@constructor.name)
+			$(@node).addClass("widget widget-#{type} #{@id}")
+			
+			@initializeBindings() if @el_id
+		
+		
+		
+		
+	
+	
 	@accessor 'updatedAtMessage', ->
 		if updatedAt = @get('updatedAt')
 			timestamp = new Date(updatedAt * 1000)
