@@ -49,10 +49,7 @@ class Dashing.Widget extends Batman.View
 	_renderNode: () =>
 		
 		if @_nodeData
-		
-			console.log @node
-			console.log @_nodeData
-	
+			
 			$(@el_id).replaceWith($(@node)) if @el_id
 			$(@node).data(@_nodeData)
 			$(@node).attr('id', @el_id.slice(1)) if @el_id
@@ -72,7 +69,10 @@ class Dashing.Widget extends Batman.View
 			$(@node).addClass("widget widget-#{type} #{@id}")
 			
 			@initializeBindings() if @el_id
-		
+
+			$(@node).parent().append("<span class='options_menu'><i class='fa fa-pencil edit-button'></i><i class='fa fa-times-circle delete-button'></i></span>") 
+
+			
 		
 		
 		
