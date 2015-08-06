@@ -122,6 +122,7 @@ Dashing.AnimatedValue =
 			@[k] = num
 
 Dashing.widgets = widgets = {}
+Dashing.listeners = listeners = []
 Dashing.lastEvents = lastEvents = {}
 Dashing.debugMode = false
 
@@ -147,6 +148,9 @@ source.addEventListener 'message', (e) =>
 			for widget in widgets[data.id]
 				widget.receiveData(data)
 
+		if listeners?.length > 0
+			for listener in listeners
+				listener(data)
 
 $(document).ready ->
 	Dashing.run()
